@@ -1,15 +1,15 @@
 <template>
   <div class="tic-tac-toe-game">
     <div class="board-row" v-for="(row, i) in board" :key="i">
-      <div class="board-col" v-for="(col, j) in row" :key="j" @click="toggle(i,j)">
-        <span
-          :class="{
-            'marked-with-o': board[i][j] === 0,
-            'marked-with-x': board[i][j] === 1,
-            'unmarked': board[i][j] === null,
-          }"
-        >
-          <!-- {{`board[${i}][${j}] === ${board[i][j]}`}} -->
+      <div class="board-col" v-for="(col, j) in row" :key="j" @click.prevent="toggle(i,j)">
+        <span>
+          <svg v-show="board[i][j] === 0" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="250" cy="250" r="245" stroke="black" stroke-width="10"/>
+          </svg>
+          <svg v-show="board[i][j] === 1" width="356" height="355" viewBox="0 0 356 355" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0.646447" y1="354.2" x2="354.2" y2="0.646468" stroke="black" stroke-width="10"/>
+            <line x1="1.35355" y1="0.646447" x2="354.907" y2="354.2" stroke="black" stroke-width="10"/>
+          </svg>
         </span>
       </div>
     </div>
@@ -71,47 +71,31 @@ export default {
   user-select: none;
   cursor: pointer;
   position: relative;
+  // https://stackoverflow.com/questions/45049873/how-to-remove-the-blue-highlight-of-button-on-mobile
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.125s cubic-bezier(0.22, 1, 0.36, 1);
 
-  &:hover {
-    background: rgba(#c1c8e4, 0.75);
+
+  // https://medium.com/@mezoistvan/finally-a-css-only-solution-to-hover-on-touchscreens-c498af39c31c
+  @media(hover: hover) and (pointer: fine) {
+    &:hover {
+      background: rgba(#c1c8e4, 0.75);
+    }
   }
 
   &:active {
     background: rgba(#c1c8e4, 1);
   }
 
-  .marked-with-o {
-    &::before {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      border-radius: 50%;
-      border: 0.5rem solid black;
-      transform: translate(-50%, -50%);
+  span {
+    width: 55%;
+    height: 55%;
+    display: inline-flex;
+    flex-direction: column;
+
+    svg {
+      width: 100%;
     }
-  }
-
-  .marked-with-x {
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      border-top: 0.5rem solid black;
-    }
-
-    &::before {
-      transform: translate(-50%, -50%) rotateZ(-45deg);
-    }
-
-    &::after {
-      transform: translate(-50%, -50%) rotateZ(45deg);
-    }
-  }
-
-  .unmarked {
-
   }
 }
 </style>
