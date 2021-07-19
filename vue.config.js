@@ -1,6 +1,6 @@
 module.exports = {
   // lintOnSave: true,
-  // publicPath: '',
+  publicPath: '',
 
   chainWebpack: config => {
     // vue inspect --plugin html
